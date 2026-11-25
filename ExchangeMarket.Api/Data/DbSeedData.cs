@@ -1,4 +1,5 @@
-﻿using ExchangeMarket.Api.Models.Entities;
+﻿using ExchangeMarket.Api.Models;
+using ExchangeMarket.Api.Models.Entities;
 using ExchangeMarket.Api.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +8,8 @@ namespace ExchangeMarket.Api.Data;
 
 public class DbSeedData
 {
-    public const string AdminRole = "Admin";
-    public const string UserRole = "User";
+    public const string AdminRole = Roles.ADmin;
+    public const string UserRole = Roles.User;
     
     public static async Task SeedAsync(IServiceProvider services)
     {
