@@ -43,5 +43,29 @@ public class ListingRepository(AppDbContext db) : IListingRepository
         
         return await q.ToListAsync();
     }
+    public Task<Listing?> GetByIdAsync(int id) =>
+        db.Listings.FirstOrDefaultAsync(l => l.Id == id);
     
+    public Task<Listing?> GetDetailsAsync(int id) =>
+        db.Listings
+            .AsNoTracking()
+            .Include(l => l.Category)
+            .Include(l => l.Seller)
+            .Include(l => l.CreatedDate)
+            .FirstOrDefaultAsync(l => l.Id == id);
+
+    public Task<List<Listing>> GetBySellerAsync(string sellerId) =>
+        db.Listings
+            .AsNoTracking()
+            .Include(l => l.Category)
+            .Where(l => l.SellerId == sellerId)
+            .OrderByDescending(l => l.CreatedDate)
+            .ToListAsync();
+
+    public Task<bool> CategoryExistsAsync(int categoryId) =>
+        db.Categories.AnyAsync(c => c.Id == categoryId);
+    
+    public void Add(Listing listing) => db.Listings.Add(listing);
+    
+    public Task SaveChangesAsync() => db.SaveChangesAsync();
 }
