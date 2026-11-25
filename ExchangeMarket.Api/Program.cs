@@ -70,6 +70,10 @@ builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 builder.Services.AddScoped<IOfferService, OfferService>();
 
+// Favorites
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
