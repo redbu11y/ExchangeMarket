@@ -8,6 +8,7 @@ public record CategoryStatsDto (
     int RemovedCount,
     decimal? MeanSoldPrice,
     decimal? MedianSoldPrice,
+    decimal? StdDevSoldPrice,
     decimal? AverageDaysToSell,
     decimal? AverageDiscountPercent,
     decimal SalesRatio
