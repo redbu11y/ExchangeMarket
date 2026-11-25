@@ -18,15 +18,15 @@ public class DbSeedData
         
         await db.Database.MigrateAsync();
         
-        foreach (var role in new[] { "AdminRole", "UserRole" })
+        foreach (var role in new[] { AdminRole, UserRole })
             if (!await roleManager.RoleExistsAsync(role))
                 await roleManager.CreateAsync(new IdentityRole(role));
         
         //users
         await SeedUserAsync(userManager, "admin@brukt.no", "Admin", "Admin123!", AdminRole);
-        var ola = await SeedUserAsync(userManager, "ola@brukt.no",  "Ola Bruker", "bruker123!", UserRole);
-        var kari = await SeedUserAsync(userManager, "kari@brukt.no",  "Kari Bruker", "bruker1234!", UserRole);
-        var per = await SeedUserAsync(userManager, "per@brukt.no",  "Per Bruker", "bruker12345!", UserRole);
+        var ola = await SeedUserAsync(userManager, "ola@brukt.no",  "Ola Bruker", "Bruker123!", UserRole);
+        var kari = await SeedUserAsync(userManager, "kari@brukt.no",  "Kari Bruker", "Bruker1234!", UserRole);
+        var per = await SeedUserAsync(userManager, "per@brukt.no",  "Per Bruker", "Bruker12345!", UserRole);
 
         //check if data is seeded
         if (await db.Categories.AnyAsync()) return;
@@ -44,7 +44,7 @@ public class DbSeedData
         {
             user = new ApplicationUser { UserName = email, Email = email, FullName = fullName, EmailConfirmed = true };
             var result = await userManager.CreateAsync(user, password);
-            if (!result.Succeeded) throw new InvalidOperationException("seeding failed");
+            if (!result.Succeeded) throw new InvalidOperationException($"Seeding {email} failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
         if (!await userManager.IsInRoleAsync(user, role)) await  userManager.AddToRoleAsync(user, role);
         
