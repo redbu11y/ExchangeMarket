@@ -1,5 +1,4 @@
 ﻿using ExchangeMarket.Api.DTOs.Offers;
-using ExchangeMarket.Api.Models.Entities;
 
 namespace ExchangeMarket.Api.Service;
 

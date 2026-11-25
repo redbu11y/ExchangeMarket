@@ -28,7 +28,7 @@ public class OfferService(IOfferRepository offers, IListingRepository listings) 
             ?? throw new NotFoundException($"Listing with id {listingId} does not exist");
         
         //Man kan ikke gi bud på egen annonse (400).
-        if (listing.Seller.Id != buyerId)
+        if (listing.SellerId == buyerId)
             throw new BadRequestException("You cannot place an offer on your own listing");
         
         //Bud kan bare gis på annonser med status Active (409).
@@ -97,11 +97,11 @@ public class OfferService(IOfferRepository offers, IListingRepository listings) 
         var offer = await offers.GetWithListingAsync(offerId)
             ?? throw new NotFoundException($"Offer with id {offerId} does not exist");
         
-        if (offer.Buyer.Id != userId)
+        if (offer.BuyerId != userId)
             throw new BadRequestException("Only the buyer can withdraw this offer");
         
         if (offer.Status != OfferStatus.Pending)
-            throw new BadRequestException("Only pending offer can be withdrawn.");
+            throw new ConflictException("Only pending offer can be withdrawn.");
 
         offer.Status = OfferStatus.Withdrawn;
         await offers.SaveChangesAsync();

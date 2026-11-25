@@ -7,7 +7,7 @@ public record OfferDto(
     int ListingId,
     string ListingTitle,
     string BuyerId,
-    String BuyerName,
+    string BuyerName,
     int Amount,
     OfferStatus Status,
     DateTime CreatedDate);
