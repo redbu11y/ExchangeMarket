@@ -16,6 +16,6 @@ public class ListingQueryDto
 
     [RegularExpression("^(newest|price_asc|price_desc)$",
         ErrorMessage = "Sort must be 'newest' or 'price_asc' or 'price_desc'.")]
-    public string? SortBy { get; set; }
+    public string? Sort { get; set; }
 
 }
