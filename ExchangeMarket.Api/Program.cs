@@ -1,6 +1,8 @@
 using ExchangeMarket.Api.Data;
+using ExchangeMarket.Api.Models.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 
@@ -14,6 +16,11 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -24,6 +31,13 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+/*
+ * /api/auth/register
+ * /login
+ * /refresh
+*/
+app.MapGroup("/api/auth").MapIdentityApi<ApplicationUser>();
 
 app.UseHttpsRedirection();
 
