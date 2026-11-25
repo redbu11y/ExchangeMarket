@@ -38,7 +38,7 @@ public class DbSeedData
         var user = await userManager.FindByEmailAsync(email);
         if (user is null)
         {
-            user = new ApplicationUser { UserName = emaill, Email = email, Fullname = fullName, EmailConfirmed = true };
+            user = new ApplicationUser { UserName = email, Email = email, FullName = fullName, EmailConfirmed = true };
             var result = await userManager.CreateAsync(user, password);
             if (!result.Succeeded) throw new InvalidOperationException("seeding failed");
         }
