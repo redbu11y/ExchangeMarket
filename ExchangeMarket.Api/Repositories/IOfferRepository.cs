@@ -11,7 +11,7 @@ public interface IOfferRepository
     Task<List<Offer>> GetByBuyerAsync(string buyerId);
     Task<bool> HasPendingAsync (int listingId, string buyerId);
     Task<List<Offer>> GetOtherPendingAsync(int listingId, int exceptOfferId);
-    void AddOffer(Offer offer);
+    void Add(Offer offer);
     Task SaveChangesAsync();
     Task <IDbContextTransaction> BeginTransactionAsync();
     

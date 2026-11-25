@@ -51,7 +51,7 @@ public class OfferRepository(AppDbContext db) : IOfferRepository
                         o.Status == OfferStatus.Pending)
             .ToListAsync();
     
-    public void AddOffer(Offer offer) =>
+    public void Add(Offer offer) =>
         db.Offers.Add(offer);
     
     public Task SaveChangesAsync() =>
