@@ -2,7 +2,7 @@
 
 namespace ExchangeMarket.Api.DTOs.Offers;
 
-public record OffersDto(
+public record OfferDto(
     int Id,
     int ListingId,
     string ListingTitle,
