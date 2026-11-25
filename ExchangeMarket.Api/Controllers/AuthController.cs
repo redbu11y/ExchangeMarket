@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExchangeMarket.Api.Controllers;
 
 [ApiController]
-[Route("[api/auth]")]
+[Route("api/auth")]
 [Authorize]
 public class AuthController(UserManager<ApplicationUser> userManager) : ControllerBase
 {
