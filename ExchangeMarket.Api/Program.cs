@@ -2,6 +2,8 @@ using System.Text.Json.Serialization;
 using ExchangeMarket.Api.Data;
 using ExchangeMarket.Api.Exceptions;
 using ExchangeMarket.Api.Models.Entities;
+using ExchangeMarket.Api.Repositories;
+using ExchangeMarket.Api.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
@@ -56,12 +58,18 @@ builder.Services.AddOpenApi(options =>
     });
 });
 
+// Categories
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     await DbSeedData.SeedAsync(scope.ServiceProvider);
 }
+
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

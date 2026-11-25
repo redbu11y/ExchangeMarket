@@ -1,3 +1,3 @@
 ﻿namespace ExchangeMarket.Api.DTOs.Categories;
 
-public class CategoryDto(int Id, String Name);
+public record CategoryDto(int Id, string Name);

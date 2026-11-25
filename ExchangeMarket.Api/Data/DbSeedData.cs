@@ -8,7 +8,7 @@ namespace ExchangeMarket.Api.Data;
 
 public class DbSeedData
 {
-    public const string AdminRole = Roles.ADmin;
+    public const string AdminRole = Roles.Admin;
     public const string UserRole = Roles.User;
     
     public static async Task SeedAsync(IServiceProvider services)

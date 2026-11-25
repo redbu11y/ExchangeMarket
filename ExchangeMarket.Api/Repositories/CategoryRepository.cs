@@ -13,7 +13,8 @@ public class CategoryRepository(AppDbContext db) : ICategoryRepository
     db.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
     public Task<bool> NameExistsAsync(string name, int? excludeId = null) =>
-        db.Categories.AnyAsync(c => c.Name.ToLower() == name.ToLower() || c.Id != excludeId && excludeId == null);
+        db.Categories.AnyAsync(c => 
+            c.Name.ToLower() == name.ToLower() && (excludeId == null || c.Id != excludeId));
     
     public Task<bool> HasListingAsync(int id) =>
         db.Listings.AnyAsync(l => l.CategoryId == id);

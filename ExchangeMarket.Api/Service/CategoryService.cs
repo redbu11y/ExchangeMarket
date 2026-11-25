@@ -32,11 +32,11 @@ public class CategoryService(ICategoryRepository repo) : ICategoryService
     public async Task<CategoryDto> UpdateAsync(int id, CategoryRequestDto dto)
     {
         var category = await repo.GetByIdAsync(id)
-            ?? throw new NotFoundException($"Category with id {id} not found");
+            ?? throw new NotFoundException($"Category with id '{id}' not found");
         
         var name = dto.Name.Trim();
         if (await repo.NameExistsAsync(name, excludeId: id))
-            throw new ConflictException($"A category named '{name}' already exists'");
+            throw new ConflictException($"A category named {name} already exists");
         
         category.Name = name.Trim();
         await repo.SaveChangesAsync();
