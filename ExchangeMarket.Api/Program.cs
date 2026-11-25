@@ -1,31 +1,34 @@
+using System.Text.Json.Serialization;
 using ExchangeMarket.Api.Data;
+using ExchangeMarket.Api.Exceptions;
 using ExchangeMarket.Api.Models.Entities;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using Microsoft.OpenApi;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
+// DB
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
+// ID
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Controllers
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-//Blazor
+// Errors & Exceptions Handler
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<AppExceptionHandler>();
+
+
+// Cors & Blazor
 builder.Services.AddCors(o => o.AddPolicy("BlazorClient", p => p
     .WithOrigins(builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [])
         .AllowAnyHeader()
@@ -59,19 +62,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
-/*
- * /api/auth/register
- * /login
- * /refresh
-*/
-app.MapGroup("/api/auth").MapIdentityApi<ApplicationUser>();
-
 app.UseHttpsRedirection();
-
+app.UseCors("BlazorClient");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+// /api/auth/register & /login & /refresh & etc
+app.MapGroup("/api/auth").MapIdentityApi<ApplicationUser>();
 
 app.Run();
