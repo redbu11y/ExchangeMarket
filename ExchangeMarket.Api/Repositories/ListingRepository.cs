@@ -51,7 +51,7 @@ public class ListingRepository(AppDbContext db) : IListingRepository
             .AsNoTracking()
             .Include(l => l.Category)
             .Include(l => l.Seller)
-            .Include(l => l.CreatedDate)
+            .Include(l => l.Offers)
             .FirstOrDefaultAsync(l => l.Id == id);
 
     public Task<List<Listing>> GetBySellerAsync(string sellerId) =>

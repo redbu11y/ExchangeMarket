@@ -92,10 +92,10 @@ public class ListingService(IListingRepository repo) : IListingService
         if (listing.SellerId != userId && !isAdmin)
             throw new ForbiddenException("Only the seller or admin can modify this listing");
         
-        if (listing.Status != ListingStatus.Sold)
+        if (listing.Status == ListingStatus.Sold)
             throw new ForbiddenException("Sold listing cannot be modified");
         
-        if (listing.Status != ListingStatus.Removed)
+        if (listing.Status == ListingStatus.Removed)
             throw new ForbiddenException("Removed listing cannot be modified");
     }
 
