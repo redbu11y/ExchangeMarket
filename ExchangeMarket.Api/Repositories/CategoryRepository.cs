@@ -9,7 +9,7 @@ public class CategoryRepository(AppDbContext db) : ICategoryRepository
     public Task<List<Category>> GetAllAsync() => 
         db.Categories.AsNoTracking().OrderBy(c => c.Name).ToListAsync();
     
-    public Task<Category> GetByIdAsync(int id) =>
+    public Task<Category?> GetByIdAsync(int id) =>
     db.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
     public Task<bool> NameExistsAsync(string name, int? excludeId = null) =>

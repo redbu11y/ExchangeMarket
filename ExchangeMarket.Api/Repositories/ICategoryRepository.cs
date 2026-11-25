@@ -5,7 +5,7 @@ namespace ExchangeMarket.Api.Repositories;
 public interface ICategoryRepository
 {
     Task<List<Category>> GetAllAsync();
-    Task<Category> GetByIdAsync(int id);
+    Task<Category?> GetByIdAsync(int id);
     
     Task<bool> NameExistsAsync(String name, int? excludeId = null);
     Task<bool> HasListingAsync(int id);
