@@ -95,10 +95,10 @@ public async Task<ListingDetailDto> GetByIdAsync(int id)
             throw new ForbiddenException("Only the seller or admin can modify this listing");
         
         if (listing.Status == ListingStatus.Sold)
-            throw new ForbiddenException("Sold listing cannot be modified");
+            throw new ConflictException("Sold listing cannot be modified");
         
         if (listing.Status == ListingStatus.Removed)
-            throw new ForbiddenException("Removed listing cannot be modified");
+            throw new ConflictException("Removed listing cannot be modified");
     }
 /*
     private static ListingSummaryDto ToSummary(Listing l) => new(

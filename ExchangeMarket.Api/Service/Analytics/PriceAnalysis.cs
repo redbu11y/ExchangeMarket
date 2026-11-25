@@ -21,8 +21,11 @@ public class PriceAnalysis
             return null;
         
         var raw = Statistics.Median(normalized) * ConditionFactors.For(targetCondition);
-        return (int)(Math.Round(raw / 10m, MidpointRounding.AwayFromZero) * 10);
+        return RoundToNearest10(raw);
     }
+    
+    public static int RoundToNearest10(decimal value) =>
+        (int)(Math.Round(value / 10m, MidpointRounding.AwayFromZero) * 10);
 
     // Ai generated
     /// <summary>Low / Normal / High using the 1.5·IQR rule on normalized prices. Unknown if &lt; 5 sales.</summary>
