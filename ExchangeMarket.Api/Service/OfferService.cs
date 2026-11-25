@@ -98,7 +98,7 @@ public class OfferService(IOfferRepository offers, IListingRepository listings) 
             ?? throw new NotFoundException($"Offer with id {offerId} does not exist");
         
         if (offer.BuyerId != userId)
-            throw new BadRequestException("Only the buyer can withdraw this offer");
+            throw new ForbiddenException("Only the buyer can withdraw this offer");
         
         if (offer.Status != OfferStatus.Pending)
             throw new ConflictException("Only pending offer can be withdrawn.");
