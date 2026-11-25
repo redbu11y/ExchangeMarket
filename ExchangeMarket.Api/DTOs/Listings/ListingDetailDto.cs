@@ -19,4 +19,4 @@ public record ListingDetailDto(
     string SellerName,
     int OfferCount,
     int? SuggestedPrice,
-    string PriceAssessment);
+    string? PriceAssessment);
