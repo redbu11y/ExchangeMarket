@@ -69,6 +69,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
         //Favorite
         builder.Entity<Favorite>(e =>
         {
+            e.HasIndex(f => new { f.UserId, f.ListingId }).IsUnique();
+                
             e.HasOne(f => f.Listing)
                 .WithMany(l => l.Favorites)
                 .HasForeignKey(f => f.ListingId)
