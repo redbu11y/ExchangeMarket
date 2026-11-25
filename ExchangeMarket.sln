@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeMarket.Api", "ExchangeMarket.Api\ExchangeMarket.Api.csproj", "{F0003751-3841-47A0-88DE-4FEF7E7055F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeMarket.Tests", "ExchangeMarket.Tests\ExchangeMarket.Tests.csproj", "{413818FC-E5B1-4580-98C2-990877FB0459}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0003751-3841-47A0-88DE-4FEF7E7055F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0003751-3841-47A0-88DE-4FEF7E7055F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0003751-3841-47A0-88DE-4FEF7E7055F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0003751-3841-47A0-88DE-4FEF7E7055F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413818FC-E5B1-4580-98C2-990877FB0459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413818FC-E5B1-4580-98C2-990877FB0459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413818FC-E5B1-4580-98C2-990877FB0459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413818FC-E5B1-4580-98C2-990877FB0459}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

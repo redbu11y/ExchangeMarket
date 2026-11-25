@@ -1,0 +1,6 @@
+@ExchangeMarket.Api_HostAddress = http://localhost:5120
+
+GET {{ExchangeMarket.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
