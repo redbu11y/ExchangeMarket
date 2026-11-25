@@ -62,6 +62,10 @@ builder.Services.AddOpenApi(options =>
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+// Listings
+builder.Services.AddScoped<IListingRepository, ListingRepository>();
+builder.Services.AddScoped<IListingService, ListingService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
