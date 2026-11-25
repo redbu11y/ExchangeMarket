@@ -9,7 +9,7 @@ namespace ExchangeMarket.Api.Service;
 public class ListingService(IListingRepository repo) : IListingService
 {
     public async Task<List<ListingSummaryDto>> SearchAsync(ListingQueryDto query) =>
-        (await repo.SearchActiveAsync(query)).Select(ToSummary).ToList();
+        (await repo.SearchActiveAsync(query)).Select(l => l.ToSummaryDto()).ToList();
 
     public async Task<ListingDetailDto> GetByIdAsync(int id)
     {
@@ -19,7 +19,7 @@ public class ListingService(IListingRepository repo) : IListingService
     }
 
     public async Task<List<ListingSummaryDto>> GetMyAsync(string userId) =>
-        (await repo.GetBySellerAsync(userId)).Select(ToSummary).ToList();
+        (await repo.GetBySellerAsync(userId)).Select(l => l.ToSummaryDto()).ToList();
     
     public async Task<ListingDetailDto> CreateAsync(ListingRequestDto dto, string userId)
     {
@@ -98,10 +98,11 @@ public class ListingService(IListingRepository repo) : IListingService
         if (listing.Status == ListingStatus.Removed)
             throw new ForbiddenException("Removed listing cannot be modified");
     }
-
+/*
     private static ListingSummaryDto ToSummary(Listing l) => new(
         l.Id, l.Title, l.Price, l.Condition, l.Status, l.ImageUrl, l.CategoryId, l.Category.Name, l.CreatedDate);
- 
+*/
+
     private static ListingDetailDto ToDetail(Listing l) => new(
         l.Id, l.Title, l.Description, l.Price, l.Condition, l.Status, l.ImageUrl,
         l.CreatedDate, l.SoldDate, l.SoldPrice,
