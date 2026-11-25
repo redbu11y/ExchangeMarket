@@ -44,6 +44,7 @@ public class ListingService(IListingRepository repo) : IListingService
         return await GetByIdAsync(listing.Id);
     }
 
+    // We save the old price before we overwrite it
     public async Task<ListingDetailDto> UpdateAsync(int id, ListingRequestDto dto, string userId, bool isAdmin)
     {
         var listing = await repo.GetByIdAsync(id)
