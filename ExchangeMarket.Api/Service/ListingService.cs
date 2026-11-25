@@ -6,17 +6,19 @@ using ExchangeMarket.Api.Repositories;
 
 namespace ExchangeMarket.Api.Service;
 
-public class ListingService(IListingRepository repo) : IListingService
+public class ListingService(IListingRepository repo, IAnalyticsService analytics) : IListingService
 {
     public async Task<List<ListingSummaryDto>> SearchAsync(ListingQueryDto query) =>
         (await repo.SearchActiveAsync(query)).Select(l => l.ToSummaryDto()).ToList();
 
-    public async Task<ListingDetailDto> GetByIdAsync(int id)
-    {
-        var listing = await repo.GetDetailsAsync(id)
-            ?? throw new ArgumentException($"Listing with id {id} not found");
-        return ToDetail(listing);
-    }
+public async Task<ListingDetailDto> GetByIdAsync(int id)
+{
+    var listing = await repo.GetDetailsAsync(id)
+        ?? throw new NotFoundException($"Listing with id {id} not found.");
+
+    var estimate = await analytics.GetListingEstimateAsync(listing.CategoryId, listing.Price, listing.Condition);
+    return ToDetail(listing, estimate);
+}
 
     public async Task<List<ListingSummaryDto>> GetMyAsync(string userId) =>
         (await repo.GetBySellerAsync(userId)).Select(l => l.ToSummaryDto()).ToList();
@@ -103,13 +105,13 @@ public class ListingService(IListingRepository repo) : IListingService
         l.Id, l.Title, l.Price, l.Condition, l.Status, l.ImageUrl, l.CategoryId, l.Category.Name, l.CreatedDate);
 */
 
-    private static ListingDetailDto ToDetail(Listing l) => new(
-        l.Id, l.Title, l.Description, l.Price, l.Condition, l.Status, l.ImageUrl,
-        l.CreatedDate, l.SoldDate, l.SoldPrice,
-        l.CategoryId, l.Category.Name,
-        l.SellerId,
-        string.IsNullOrWhiteSpace(l.Seller.FullName) ? l.Seller.Email! : l.Seller.FullName,
-        l.Offers.Count,
-        SuggestedPrice: null,
-        PriceAssessment: null);
+private static ListingDetailDto ToDetail(Listing l, ListingEstimate estimate) => new(
+    l.Id, l.Title, l.Description, l.Price, l.Condition, l.Status, l.ImageUrl,
+    l.CreatedDate, l.SoldDate, l.SoldPrice,
+    l.CategoryId, l.Category.Name,
+    l.SellerId,
+    string.IsNullOrWhiteSpace(l.Seller.FullName) ? l.Seller.Email! : l.Seller.FullName,
+    l.Offers.Count,
+    estimate.SuggestedPrice,
+    estimate.Assessment.ToString());
 }

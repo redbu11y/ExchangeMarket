@@ -74,6 +74,10 @@ builder.Services.AddScoped<IOfferService, OfferService>();
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
+// Analytics
+builder.Services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
