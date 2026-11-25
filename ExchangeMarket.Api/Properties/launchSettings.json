@@ -10,5 +10,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "Cors": {
+    "AllowedOrigins": [ "https://localhost:7200", "http://localhost:5200" ]
   }
 }
